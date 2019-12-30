@@ -1,0 +1,100 @@
+{%extends "files/base.html"%}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="bgimg" style="background-image: url('https://lh5.googleusercontent.com/p/AF1QipMoP-lQDLuQ82O_7klPGNXdE5bPRkcBJjyk2VT-=w240-h160-k-no');" data-stellar-background-ratio="0.5">
+      <div class="container">
+        <div class="row align-items-center justify-content-center text-center">
+          <div class="col-md-7">
+            <h2 class="">Search Results</h2>
+            <p class="lead mx-auto desc mb-5">
+              Your search returned the following results.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Main content of the page starts here-->
+    <div class="site-section">
+      <div class="container">
+        <div class="row mb-5">
+        {% if dber %}
+
+            <article class="media content-section bg-light">
+                <table cellpadding="50">
+                  <tr >
+                    <td width="100%" >
+                      <h2 class="article-title"><a href="{% url 'update_dber' dber.id %}"> {{ dber.name }}</a></h2>
+                      <p class="article-content"> {{ dber.uid }}</p>
+                      <p class="article-content"> DOB : {{ dber.dob }}</p>
+                      <p class="article-content"> Sex : {{ dber.gender }}</p>
+                      <p class="article-content"> City: {{ dber.city }}, {{ dber.state }}</p>
+                      <hr>
+                    </td>
+                  </tr>
+
+                  {% if user.profile.qualifier == 1%}
+                      <tr >
+                        <td width="100%" >
+                          <p>
+                            <a href="{% url 'update_dber' dber.id %}" class="d-flex d-md-flex align-items-left btn">
+                              <span class="mx-auto">Update</span> <span class="arrow icon-keyboard_arrow_right"></span>
+                            </a>
+                            &nbsp&nbsp&nbsp
+                            <a href="{% url 'delete_dber' dber.id %}" class="d-flex d-md-flex align-items-left btn">
+                              <span class="mx-auto">Delete</span> <span class="arrow icon-keyboard_arrow_right"></span>
+                            </a>
+                            &nbsp&nbsp&nbsp
+                            <a href="{% url 'send_mail' dber.id %}" class="d-flex d-md-flex align-items-left btn">
+                              <span class="mx-auto">Mail</span> <span class="arrow icon-keyboard_arrow_right"></span>
+                            </a>
+                            &nbsp&nbsp&nbsp
+                          </p>
+                        </td>
+                      </tr>
+
+                    {% elif user != dber.user %}
+                        <tr >
+                          <td width="100%" >
+                            <p>
+                              <a href="{% url 'send_mail' dber.id %}" class="d-flex d-md-flex align-items-left btn">
+                                <span class="mx-auto">Mail</span> <span class="arrow icon-keyboard_arrow_right"></span>
+                              </a>
+                              &nbsp&nbsp&nbsp
+                              {% if user.profile %}
+                                <!--Pass-->
+                              {% elif dber.user %}
+                                <!--Pass-->
+                              {% else %}
+                                <a href="{% url 'link_account' dber.id %}" class="d-flex d-md-flex align-items-left btn">
+                                  <span class="mx-auto">Link Account</span> <span class="arrow icon-keyboard_arrow_right"></span>
+                                </a>
+                              {% endif %}
+                            </p>
+                          </td>
+                        </tr>
+                    {% endif %}
+
+                </table>
+                <hr>
+            </article>
+
+        {% else %}
+          <h3>Sorry, No Users Related to Your Search were Found</h3>
+        {% endif %}
+
+      </div>
+
+      {% if user.profile %}
+        <!--Pass-->
+      {% else %}
+        <div class="border-top pt-3">
+          <center><h4>Didn't Find Your Profile ?</h4></center>
+            <a href="{% url 'search_city_staff' %}">Report</a> the issue to your city's staff in-charge.
+
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+{%endblock content%}

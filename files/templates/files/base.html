@@ -1,0 +1,184 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>DBPortal - The Database Management System</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="https://fonts.googleapis.com/css?family=Muli:300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
+  <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/jquery.fancybox.min.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}">
+
+  <link rel="stylesheet" href="{% static 'fonts/flaticon/font/flaticon.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/aos.css' %}">
+  <link href="{% static 'css/jquery.mb.YTPlayer.min.css' %}" media="all" rel="stylesheet" type="text/css">
+
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+  <script>
+    $(document).ready(function(){
+      $('html').animate({scrollTop:0}, 1);
+      $('body').animate({scrollTop:0}, 1);
+    });
+  </script>
+
+    <script type="text/javascript">
+            function refreshPage () {
+                $('html').animate({scrollTop:0}, 1);
+                $('body').animate({scrollTop:0}, 1);
+                var page_y = document.getElementsByTagName("body")[0].scrollTop;
+                window.location.href = window.location.href.split('?')[0] + '?page_y=' + page_y;
+            }
+            window.onload = function () {
+
+                if ( window.location.href.indexOf('page_y') != -1 ) {
+                    var match = window.location.href.split('?')[1].split("&")[0].split("=");
+                    document.getElementsByTagName("body")[0].scrollTop = match[1];
+                }
+            }
+    </script>
+
+  </head>
+</script>
+
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+
+  <div class="site-wrap">
+
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+
+
+    <header class="site-navbar py-4 js-sticky-header site-navbar-target" role="banner">
+
+      <div class="container-fluid">
+        <div class="d-flex align-items-center">
+          <div class="site-logo"><a href="{% url 'home' %}">DBPortal<span>.</span> </a></div>
+          <div class="ml-auto">
+            <nav class="site-navigation position-relative text-right" role="navigation">
+              <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
+                <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+
+                {% if user.is_authenticated %}
+
+                    {% if user.profile.qualifier == 1 %}
+                    <li><a href="{% url 'search_dber' %}" class="nav-link">Search</a></li>
+                      <li>
+                        <a href="{% url 'update_staff' %}" class="nav-link">
+                          {% if user.profile.name %}
+                            Hello, {{user.profile.name}}
+                          {% else %}
+                            Hello, {{user.username}}
+                          {% endif %}
+                        </a>
+                      </li>
+                      <li><a href="{% url 'upload_file' %}" class="nav-link">Upload File</a></li>
+                      <li><a href="{% url 'add_dber' %}" class="nav-link">Add Dbers</a></li>
+                    {% else %}
+
+                        <li><a href="{% url 'search_uid_normal' %}" class="nav-link">Search</a></li>
+                        {% if user.profile %}
+                          <li><a href="{% url 'change_email'%}" class="nav-link">Hello, {{user.profile.name}}</a></li>
+                          <li><a href="{% url 'change_password'%}" class="nav-link">Account</a></li>
+                        {% else %}
+                          <li><a href="{% url 'change_email' %}" class="nav-link">Hello, {{user.username}}</a></li>
+                          <li><a href="{% url 'search_dber'%}" class="nav-link">Link Account</a></li>
+                          <li><a href="{% url 'change_password'%}" class="nav-link">Security</a></li>
+                        {% endif %}
+
+                    {% endif %}
+
+                  <li><a href="{% url 'logout' %}" class="nav-link">Logout</a></li>
+                {% else %}
+                  <li><a href="{% url 'login' %}" class="nav-link">Login</a></li>
+                  <li><a href="{% url 'register' %}" class="nav-link">Sign Up</a></li>
+                {% endif %}
+              </ul>
+            </nav>
+            <a href="#" class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle float-right"><span
+                class="icon-menu h3"></span></a>
+          </div>
+
+        </div>
+      </div>
+    </header>
+
+
+          {%block content%}
+
+
+          {%endblock content%}
+
+
+    <div class="schedule-wrap2 clearfix">
+      <div class="d-md-flex align-items-center">
+        <div class="hours mr-md-4 mb-4 mb-lg-0">
+          <strong class="d-block">BITS Pilani</strong>
+          Vidya Vihar, Pilani, Rajasthan 333031
+        </div>
+        <div class="cta ml-auto">
+          <a href="https://www.bits-pilani.ac.in/" class="d-flex d-md-flex align-items-center btn">
+            <span class="mx-auto"> <span>Contact us</span> <span class="arrow icon-keyboard_arrow_right"></span></span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+
+    <footer class="footer-section bg-dark">
+      <div class="container">
+        <div class="row pt-5 mt-5 text-center">
+          <div class="col-md-12">
+            <div class=" pt-5">
+              <p class="copyright">
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </footer>
+
+  </div>
+  <!-- .site-wrap -->
+
+  <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'js/jquery-migrate-3.0.1.min.js' %}"></script>
+  <script src="{% static 'js/jquery-ui.js' %}"></script>
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'js/jquery.stellar.min.js' %}"></script>
+  <script src="{% static 'js/jquery.countdown.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap-datepicker.min.js' %}"></script>
+  <script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+  <script src="{% static 'js/aos.js' %}"></script>
+  <script src="{% static 'js/jquery.fancybox.min.js' %}"></script>
+  <script src="{% static 'js/jquery.sticky.js' %}"></script>
+  <script src="{% static 'js/jquery.mb.YTPlayer.min.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+
+</html>
